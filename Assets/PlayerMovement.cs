@@ -13,11 +13,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-           
+            // TODO : 17 Ekim günü buradaki optimizasyon problemine bak.
             gameObject.GetComponent<Transform>().position += Vector3.forward* speed * Time.fixedDeltaTime;
-
+                
 
         }
+        //TODO  : A,S,D Tuşlarının hareketi eklenecek.
+
     }
 
 }
