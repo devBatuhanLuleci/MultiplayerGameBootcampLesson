@@ -6,20 +6,40 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     private float speed = 0.05f;
-    
 
+    private Transform myTransform;
+    private Rigidbody myRigidbody;
+
+    private float horizontal;
+    private float vertical;
+
+    private void Awake()
+    {
+        myTransform = GetComponent<Transform>();
+        myRigidbody = GetComponent<Rigidbody>();
+    }
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            // TODO : 17 Ekim günü buradaki optimizasyon problemine bak.
-            gameObject.GetComponent<Transform>().position += Vector3.forward* speed * Time.fixedDeltaTime;
-                
+        horizontal = Input.GetAxis("Horizontal");
 
-        }
-        //TODO  : A,S,D Tuşlarının hareketi eklenecek.
+        vertical = Input.GetAxis("Vertical");
+    }
+    private void FixedUpdate()
+    {
+        Move(myRigidbody);
 
     }
+    void Move(Rigidbody Rigidbody)
+    {
 
+        Vector3 newPos = new Vector3(horizontal * speed * Time.fixedDeltaTime,
+                                       Rigidbody.velocity.y,
+                                      vertical * speed * Time.fixedDeltaTime);
+
+        Rigidbody.velocity = newPos;
+
+
+
+    }
 }
