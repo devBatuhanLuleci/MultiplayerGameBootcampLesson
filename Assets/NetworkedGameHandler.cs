@@ -7,14 +7,23 @@ public class NetworkedGameHandler : NetworkBehaviour
 {
     public GameObject CoinPrefab;
     public Transform CoinSpawnPoint;
+    private NetworkObject m_SpawnedNetworkObject;
     public override void OnNetworkSpawn()
     {
+        if (!IsServer) { return; }
+
+
+
         base.OnNetworkSpawn();
 
-       
-        GameObject coinObj= Instantiate(CoinPrefab);
+        Debug.Log("Network is spawned.");
+
+        GameObject coinObj= Instantiate(CoinPrefab, CoinSpawnPoint);
 
 
+
+        m_SpawnedNetworkObject = coinObj.GetComponent<NetworkObject>();
+        m_SpawnedNetworkObject.Spawn();
 
 
 
