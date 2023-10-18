@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     [SerializeField]
     private float speed = 0.05f;
@@ -21,12 +22,20 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if(!IsOwner) { return; }
+
+
         horizontal = Input.GetAxis("Horizontal");
 
         vertical = Input.GetAxis("Vertical");
     }
     private void FixedUpdate()
     {
+
+        if (!IsOwner) { return; }
+
+
+
         Move(myRigidbody);
 
     }
