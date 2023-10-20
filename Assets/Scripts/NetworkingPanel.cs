@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class NetworkingPanel : MonoBehaviour
 {
     [SerializeField] private Button StartAsClientButton;
     [SerializeField] private Button StartAsHostButton;
+    [SerializeField] private Button StartAsServerButton;
 
 
     
@@ -16,10 +18,18 @@ public class NetworkingPanel : MonoBehaviour
     {
         StartAsClientButton.onClick.AddListener(OnClick_StartAsClientButton);
         StartAsHostButton.onClick.AddListener(OnClick_StartAsHostButton);
+        StartAsServerButton.onClick.AddListener(OnClick_StartAsServerButton);
 
 
 
     }
+
+    public void OnClick_StartAsServerButton()
+    {
+       NetworkManager.Singleton.StartServer();
+
+    }
+
     public void OnClick_StartAsClientButton()
     {
 
