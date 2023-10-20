@@ -8,26 +8,40 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField]
     private float speed = 0.05f;
 
-    private Transform myTransform;
-    private Rigidbody myRigidbody;
 
+    private Rigidbody myRigidbody;
+    //private CharacterController cc;
     private float horizontal;
     private float vertical;
 
+    private PlayerInputs InputActions;
+
+
+
     private void Awake()
     {
-        myTransform = GetComponent<Transform>();
+
         myRigidbody = GetComponent<Rigidbody>();
+        //cc=GetComponent<CharacterController>();
+
+        InputActions = new();
+        InputActions.Enable();
+
+
     }
 
     void Update()
     {
-        if(!IsOwner) { return; }
+        if (!IsOwner) { return; }
 
 
-        horizontal = Input.GetAxis("Horizontal");
+        Vector2 InputVector = InputActions.Player.Movement.ReadValue<Vector2>();
 
-        vertical = Input.GetAxis("Vertical");
+        // horizontal = Input.GetAxis("Horizontal");
+        horizontal = InputVector.x;
+
+        //vertical = Input.GetAxis("Vertical");
+        vertical = InputVector.y;
     }
     private void FixedUpdate()
     {
@@ -37,6 +51,7 @@ public class PlayerMovement : NetworkBehaviour
 
 
         Move(myRigidbody);
+        //Move(cc);
 
     }
     void Move(Rigidbody Rigidbody)
@@ -51,4 +66,16 @@ public class PlayerMovement : NetworkBehaviour
 
 
     }
+    //    void Move(CharacterController CharacterController)
+    //{
+
+    //    Vector3 newPos = new Vector3(horizontal * speed * Time.fixedDeltaTime,
+    //                                   0,
+    //                                  vertical * speed * Time.fixedDeltaTime);
+
+    //    //Rigidbody.velocity = newPos;
+    //    CharacterController.Move(newPos);
+
+
+    //}
 }
