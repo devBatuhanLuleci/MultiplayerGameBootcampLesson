@@ -657,6 +657,7 @@ GameObject:
   - component: {fileID: 8639162051663492154}
   - component: {fileID: 4429273681893477873}
   - component: {fileID: 5884677327610786600}
+  - component: {fileID: 8890438283326192194}
   m_Layer: 8
   m_Name: PlayerArmature
   m_TagString: Player
@@ -816,7 +817,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3104374857466842660}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
@@ -902,8 +903,8 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: e4ce1614-c754-48c1-9103-33130441661f
     m_ActionName: UI/New action
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_NeverAutoSwitchControlSchemes: 1
+  m_DefaultControlScheme: KeyboardMouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -971,6 +972,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
   m_Animator: {fileID: 5686709094570892829}
+--- !u!114 &8890438283326192194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3104374857466842660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e39cfa46dcdf7b4e8967721a0fab525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3272560965828716956
 GameObject:
   m_ObjectHideFlags: 0
