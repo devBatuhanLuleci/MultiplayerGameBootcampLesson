@@ -167,7 +167,7 @@ namespace StarterAssets
             }
             else if (IsClient && IsLocalPlayer)
             {
-
+                Debug.Log("bu vektörü gönderdim: " + _input.move);
                 MoveServerRpc(_input.move);
             }
           
@@ -234,6 +234,9 @@ namespace StarterAssets
         private void Move(Vector2 move)
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
+
+            Debug.Log("Serverimiza gelen değer :"+ move);
+
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon

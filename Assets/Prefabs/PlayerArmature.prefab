@@ -656,6 +656,7 @@ GameObject:
   - component: {fileID: 7358789993801778542}
   - component: {fileID: 8639162051663492154}
   - component: {fileID: 4429273681893477873}
+  - component: {fileID: 5884677327610786600}
   m_Layer: 8
   m_Name: PlayerArmature
   m_TagString: Player
@@ -740,7 +741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 0.2
+  MoveSpeed: 1
   SprintSpeed: 5.335
   RotationSmoothTime: 0.12
   SpeedChangeRate: 10
@@ -806,8 +807,8 @@ MonoBehaviour:
   jump: 0
   sprint: 0
   analogMovement: 0
-  cursorLocked: 1
-  cursorInputForLook: 1
+  cursorLocked: 0
+  cursorInputForLook: 0
 --- !u!114 &7358789993801778542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -956,6 +957,20 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &5884677327610786600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3104374857466842660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 5686709094570892829}
 --- !u!1 &3272560965828716956
 GameObject:
   m_ObjectHideFlags: 0
