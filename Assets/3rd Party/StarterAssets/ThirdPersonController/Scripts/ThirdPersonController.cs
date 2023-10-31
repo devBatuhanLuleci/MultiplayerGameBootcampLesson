@@ -76,13 +76,22 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+
+
+        //animationSpeed
+        //private NetworkVariable<int> animationSpeed = new NetworkVariable<int>();
+        //public float animationSpeed=1f;
+
+
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
 
         // player
         private float _speed;
-        private float _animationBlend;
+        private NetworkVariable<float> _animationBlend = new NetworkVariable<float>();
+        //private float _animationBlend;
         private float _targetRotation = 0.0f;
         private float _rotationVelocity;
         private float _verticalVelocity;
@@ -151,6 +160,11 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+
+
+         
+
+
         }
 
         private void Update()
@@ -172,6 +186,7 @@ namespace StarterAssets
             }
           
         }
+      
         [ServerRpc]
         private void MoveServerRpc(Vector2 inputVector)
         {
@@ -230,12 +245,59 @@ namespace StarterAssets
             CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
                 _cinemachineTargetYaw, 0.0f);
         }
+        //public void SetAnimationSpeed(float animationSpeed)
+        //{
+        //    this.animationSpeed = animationSpeed;
 
+
+        //}
+        //public float GetAverageThresholdValue()
+        //{
+        //    var thresholdValue = 0f;
+        //    int layerIndex = 0; // Change this to the appropriate layer index
+
+        //    // Ensure that the layer index is valid
+        //    if (layerIndex < _animator.layerCount)
+        //    {
+
+        //        // Access the Animator Controller for the specified layer
+        //        AnimatorController controller = _animator.runtimeAnimatorController as AnimatorController;
+
+        //        if (controller != null)
+        //        {
+        //            // Access the layer's state machine
+        //            AnimatorStateMachine stateMachine = controller.layers[layerIndex].stateMachine;
+
+        //            if (stateMachine != null)
+        //            {
+        //                // Access the default state's motion (which should be a blend tree)
+        //                Motion motion = stateMachine.defaultState.motion;
+
+        //                if (motion is BlendTree blendTree)
+        //                {
+        //                    // Read the max threshold value from the blend tree
+        //                    var averageThresholdValue = (blendTree.minThreshold + blendTree.maxThreshold) / 2f;
+        //                    thresholdValue = averageThresholdValue;
+        //                    //float maxThreshold = blendTree.maxThreshold;
+        //                    Debug.Log("Average Threshold: " + averageThresholdValue);
+        //                }
+
+
+        //            }
+
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("Invalid layer index.");
+        //    }
+        //    return thresholdValue;
+        //}
         private void Move(Vector2 move)
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
 
-            Debug.Log("Serverimiza gelen değer :"+ move);
+            
 
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
@@ -268,8 +330,8 @@ namespace StarterAssets
                 _speed = targetSpeed;
             }
 
-            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-            if (_animationBlend < 0.01f) _animationBlend = 0f;
+            _animationBlend.Value = Mathf.Lerp(_animationBlend.Value,targetSpeed*15f, Time.deltaTime * SpeedChangeRate);
+            if (_animationBlend.Value < 0.01f) _animationBlend.Value = 0f;
 
             // normalise input direction
             Vector3 inputDirection = new Vector3(move.x, 0.0f, move.y).normalized;
@@ -297,7 +359,7 @@ namespace StarterAssets
             // update animator if using character
             if (_hasAnimator)
             {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
+                _animator.SetFloat(_animIDSpeed, _animationBlend.Value);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
         }

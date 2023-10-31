@@ -658,8 +658,9 @@ GameObject:
   - component: {fileID: 4429273681893477873}
   - component: {fileID: 5884677327610786600}
   - component: {fileID: 8890438283326192194}
+  - component: {fileID: 5128088290915425584}
   m_Layer: 8
-  m_Name: PlayerArmature
+  m_Name: UnNetworkedPlayerArmeture
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -742,7 +743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 0.2
+  MoveSpeed: 0.1
   SprintSpeed: 5.335
   RotationSmoothTime: 0.12
   SpeedChangeRate: 10
@@ -984,6 +985,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e39cfa46dcdf7b4e8967721a0fab525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5128088290915425584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3104374857466842660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4661f7bd75d604a478868f3709667bb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BlendTree: {fileID: 0}
 --- !u!1 &3272560965828716956
 GameObject:
   m_ObjectHideFlags: 0
