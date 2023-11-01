@@ -145,7 +145,7 @@ namespace StarterAssets
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-            
+
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
@@ -162,7 +162,7 @@ namespace StarterAssets
             _fallTimeoutDelta = FallTimeout;
 
 
-         
+
 
 
         }
@@ -181,12 +181,52 @@ namespace StarterAssets
             }
             else if (IsClient && IsLocalPlayer)
             {
-                Debug.Log("bu vektörü gönderdim: " + _input.move);
+
                 MoveServerRpc(_input.move);
+                InputCheck();
+
             }
-          
+
         }
-      
+
+        private void InputCheck()
+        {
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                Debug.Log("T'ye basıldı,Teleport Request'i iletildi.");
+                ClientTeleportRequest();
+
+
+            }
+        }
+
+        private void ClientTeleportRequest()
+        {
+
+            TeleportServerRpc();
+
+        }
+        private void Teleport()
+        {
+
+            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+
+            // move the player
+           
+            _controller.Move(targetDirection.normalized /*(_speed * Time.deltaTime)*/ /*+*/
+                             /*new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime*/);
+            Debug.Log("Oyuncu teleport oldu!");
+
+        }
+
+        [ServerRpc]
+        private void TeleportServerRpc()
+        {
+            Debug.Log("Oyuncu Teleport yapmak istiyor.");
+
+            Teleport();
+        }
+
         [ServerRpc]
         private void MoveServerRpc(Vector2 inputVector)
         {
@@ -195,6 +235,10 @@ namespace StarterAssets
 
 
         }
+
+
+
+
 
         private void LateUpdate()
         {
@@ -297,7 +341,7 @@ namespace StarterAssets
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
 
-            
+
 
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
@@ -330,7 +374,7 @@ namespace StarterAssets
                 _speed = targetSpeed;
             }
 
-            _animationBlend.Value = Mathf.Lerp(_animationBlend.Value,targetSpeed*15f, Time.deltaTime * SpeedChangeRate);
+            _animationBlend.Value = Mathf.Lerp(_animationBlend.Value, targetSpeed * 15f, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend.Value < 0.01f) _animationBlend.Value = 0f;
 
             // normalise input direction

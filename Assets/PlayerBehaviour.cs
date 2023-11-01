@@ -8,26 +8,28 @@ using UnityEngine.InputSystem;
 public class PlayerBehaviour : NetworkBehaviour
 {
 
+    public Transform PlayerCameraRoot;
     private ThirdPersonController _characterController;
-    //private AnimationController _animationController;
     private PlayerInput PlayerInput;
 
-    
 
-  
+
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
         PlayerInput = GetComponent<PlayerInput>();
         _characterController = GetComponent<ThirdPersonController>();
-        //_animationController = GetComponent<AnimationController>();
+    
 
         if (IsClient && IsLocalPlayer)
         {
             PlayerInput.enabled = true;
 
-            Debug.Log("Hello World");
+            SetCameraForThisPlayer();
+
+
 
         }
         else if (IsClient && !IsLocalPlayer)
@@ -37,13 +39,15 @@ public class PlayerBehaviour : NetworkBehaviour
         }
     }
 
-    //private void SetAnimationSpeed()
-    //{
+    public void SetCameraForThisPlayer()
+    {
 
-    //   _characterController.SetAnimationSpeed(_animationController.GetAverageThresholdValue());
+        CameraManager.Instance.Initilize(PlayerCameraRoot);
 
 
-    //}
+    }
+
+
 
 
 }
