@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class NetworkedGameHandler : NetworkBehaviour
+public class NetworkedGameManager : NetworkBehaviour
 {
-    public GameObject CoinPrefab;
-    public Transform CoinSpawnPoint;
+    public GameObject SpawnablePrefab;
+    public Transform SpawnPoint;
     private NetworkObject m_SpawnedNetworkObject;
+
+
     public override void OnNetworkSpawn()
     {
         if (!IsServer) { return; }
@@ -16,24 +18,17 @@ public class NetworkedGameHandler : NetworkBehaviour
 
         base.OnNetworkSpawn();
 
-        Debug.Log("Network is spawned.");
+        Debug.Log("NetworkedGameManager is spawned.");
 
-        GameObject coinObj= Instantiate(CoinPrefab, CoinSpawnPoint);
+        GameObject coinObj = Instantiate(SpawnablePrefab, SpawnPoint);
 
 
 
         m_SpawnedNetworkObject = coinObj.GetComponent<NetworkObject>();
         m_SpawnedNetworkObject.Spawn();
-
-
-
     }
-    public override void OnNetworkDespawn()
-    {
-        base.OnNetworkDespawn();
 
 
-    }
 
 
 

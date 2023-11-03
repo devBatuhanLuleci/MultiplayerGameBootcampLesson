@@ -114,7 +114,7 @@ namespace StarterAssets
         private Animator _animator;
         private CharacterController _controller;
         private StarterAssetsInputs _input;
-        private GameObject _mainCamera;
+
 
         private const float _threshold = 0.01f;
 
@@ -136,10 +136,7 @@ namespace StarterAssets
         private void Awake()
         {
             // get a reference to our main camera
-            if (_mainCamera == null)
-            {
-                _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            }
+
         }
 
         private void Start()
@@ -167,22 +164,17 @@ namespace StarterAssets
 
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             _hasAnimator = TryGetComponent(out _animator);
 
             JumpAndGravity();
             GroundedCheck();
 
-            if (IsServer && IsLocalPlayer)
-            {
-                Move(_input.move);
-
-            }
-            else if (IsClient && IsLocalPlayer)
+            if (IsClient && IsLocalPlayer)
             {
 
-                MoveServerRpc(_input.move);
+                MoveServerRpc(_input.move, GameHandler.Instance.GameCamera.transform.eulerAngles.y);
                 InputCheck();
 
             }
@@ -212,7 +204,7 @@ namespace StarterAssets
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
             // move the player
-           
+
             _controller.Move(targetDirection.normalized /*(_speed * Time.deltaTime)*/ /*+*/
                              /*new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime*/);
             Debug.Log("Oyuncu teleport oldu!");
@@ -228,10 +220,10 @@ namespace StarterAssets
         }
 
         [ServerRpc]
-        private void MoveServerRpc(Vector2 inputVector)
+        private void MoveServerRpc(Vector2 inputVector, float cameraYValue)
         {
 
-            Move(inputVector);
+            Move(inputVector, cameraYValue);
 
 
         }
@@ -242,7 +234,13 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            CameraRotation();
+            if (IsClient && IsLocalPlayer)
+            {
+
+                CameraRotation();
+
+            }
+
         }
 
         private void AssignAnimationIDs()
@@ -337,7 +335,7 @@ namespace StarterAssets
         //    }
         //    return thresholdValue;
         //}
-        private void Move(Vector2 move)
+        private void Move(Vector2 move, float cameraYValue)
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
 
@@ -374,7 +372,7 @@ namespace StarterAssets
                 _speed = targetSpeed;
             }
 
-            _animationBlend.Value = Mathf.Lerp(_animationBlend.Value, targetSpeed * 15f, Time.deltaTime * SpeedChangeRate);
+            _animationBlend.Value = Mathf.Lerp(_animationBlend.Value, targetSpeed * 1.5f, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend.Value < 0.01f) _animationBlend.Value = 0f;
 
             // normalise input direction
@@ -385,7 +383,8 @@ namespace StarterAssets
             if (move != Vector2.zero)
             {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                                  _mainCamera.transform.eulerAngles.y;
+                                  cameraYValue;
+
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                     RotationSmoothTime);
 
